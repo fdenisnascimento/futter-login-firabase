@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:login_firebase/core/component/signature_component.dart';
+import 'package:photos_saver/photos_saver.dart';
 
 import './signature_view_model.dart';
 
@@ -8,10 +10,8 @@ class SignatureView extends SignatureViewModel {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
   }
 
   @override
@@ -28,8 +28,17 @@ class SignatureView extends SignatureViewModel {
           ),
         ),
       ),
-      body: SignatureComponet(
-        onSave: (image) {},
+      body: SignatureComponent(
+        onSave: (denis) async {
+          await PhotosSaver.saveFile(fileData: denis);
+        },
+        buttonClear: Text("Claer"),
+        buttonSave: Text("Done"),
+        textLine: Text(
+          "Denis",
+          style: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.green),
+        ),
       ),
     ));
   }
